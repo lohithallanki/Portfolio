@@ -10,18 +10,20 @@
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg: #060a16;
-            --bg-elevated: #0b1224;
-            --surface: #101a33;
-            --surface-hover: #14204a;
-            --text: #eef1fb;
-            --text-dim: #8f9bc2;
-            --text-faint: #5b6690;
-            --border: rgba(147, 172, 255, 0.14);
-            --border-strong: rgba(147, 172, 255, 0.3);
-            --accent: #5b8cff;
-            --accent-2: #22d3ee;
-            --accent-glow: rgba(91, 140, 255, 0.35);
+            --bg: #0a1440;
+            --bg-elevated: #0e1c52;
+            --surface: #132463;
+            --surface-hover: #182d78;
+            --text: #eef2ff;
+            --text-dim: #a6b6ec;
+            --text-faint: #6b7cc0;
+            --border: rgba(180, 200, 255, 0.16);
+            --border-strong: rgba(180, 200, 255, 0.34);
+            --accent: #6f9bff;
+            --accent-2: #4fd1ff;
+            --accent-glow: rgba(111, 155, 255, 0.4);
+            --grid-line: rgba(160, 190, 255, 0.07);
+            --grid-line-strong: rgba(160, 190, 255, 0.14);
             --radius: 14px;
             --radius-sm: 8px;
             --transition: all 0.45s cubic-bezier(0.16, 1, 0.3, 1);
@@ -31,18 +33,20 @@
         }
 
         [data-theme="light"] {
-            --bg: #eef2ff;
-            --bg-elevated: #f7f9ff;
+            --bg: #eef3ff;
+            --bg-elevated: #f7faff;
             --surface: #ffffff;
-            --surface-hover: #eef2ff;
-            --text: #0a0f24;
-            --text-dim: #4a5378;
-            --text-faint: #8790b3;
-            --border: rgba(15, 23, 64, 0.1);
-            --border-strong: rgba(15, 23, 64, 0.2);
+            --surface-hover: #e7eeff;
+            --text: #0a1440;
+            --text-dim: #46538c;
+            --text-faint: #8390c2;
+            --border: rgba(20, 40, 130, 0.12);
+            --border-strong: rgba(20, 40, 130, 0.24);
             --accent: #2f5fe0;
             --accent-2: #0891b2;
             --accent-glow: rgba(47, 95, 224, 0.2);
+            --grid-line: rgba(20, 40, 130, 0.05);
+            --grid-line-strong: rgba(20, 40, 130, 0.1);
         }
 
         * {
@@ -62,10 +66,14 @@
             transition: background-color 0.4s ease, color 0.4s ease;
             line-height: 1.6;
             -webkit-font-smoothing: antialiased;
+            background-color: var(--bg);
             background-image:
                 radial-gradient(ellipse 900px 500px at 15% -5%, var(--accent-glow), transparent 60%),
-                radial-gradient(ellipse 700px 500px at 100% 10%, rgba(34, 211, 238, 0.12), transparent 55%);
+                radial-gradient(ellipse 700px 500px at 100% 10%, rgba(79, 209, 255, 0.16), transparent 55%),
+                repeating-linear-gradient(0deg, var(--grid-line) 0px, var(--grid-line) 1px, transparent 1px, transparent 72px),
+                repeating-linear-gradient(90deg, var(--grid-line) 0px, var(--grid-line) 1px, transparent 1px, transparent 72px);
             background-attachment: fixed;
+            transition: background-color 0.4s ease, color 0.4s ease;
         }
 
         ::selection {
@@ -208,6 +216,17 @@
             letter-spacing: -0.02em;
             margin-bottom: 36px;
             color: var(--text);
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .section-title::after {
+            content: '';
+            height: 1px;
+            width: 64px;
+            background: repeating-linear-gradient(90deg, var(--border-strong) 0, var(--border-strong) 4px, transparent 4px, transparent 8px);
         }
 
         /* Hero */
@@ -229,6 +248,60 @@
             height: 100%;
             z-index: 0;
             opacity: 0.9;
+        }
+
+        /* Blueprint registration marks — corner crosshairs, like a drafting sheet */
+        .bp-corner {
+            position: absolute;
+            width: 22px;
+            height: 22px;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .bp-corner::before,
+        .bp-corner::after {
+            content: '';
+            position: absolute;
+            background: var(--border-strong);
+        }
+
+        .bp-corner::before {
+            width: 100%;
+            height: 1px;
+            top: 50%;
+        }
+
+        .bp-corner::after {
+            width: 1px;
+            height: 100%;
+            left: 50%;
+        }
+
+        .bp-tl { top: 24px; left: 24px; }
+        .bp-tr { top: 24px; right: 24px; }
+        .bp-bl { bottom: 56px; left: 24px; }
+        .bp-br { bottom: 56px; right: 24px; }
+
+        .bp-stamp {
+            position: absolute;
+            bottom: 28px;
+            right: 24px;
+            z-index: 1;
+            font-family: var(--font-mono);
+            font-size: 10.5px;
+            letter-spacing: 0.05em;
+            color: var(--text-faint);
+            text-align: right;
+            line-height: 1.6;
+        }
+
+        .bp-stamp span {
+            color: var(--accent-2);
+        }
+
+        @media (max-width: 640px) {
+            .bp-corner, .bp-stamp { display: none; }
         }
 
         .hero-inner {
@@ -536,8 +609,23 @@
             pointer-events: none;
         }
 
+        .project-card::after {
+            content: '';
+            position: absolute;
+            inset: 6px;
+            border: 1px dashed var(--accent-2);
+            border-radius: calc(var(--radius) - 4px);
+            opacity: 0;
+            transition: opacity 0.35s ease;
+            pointer-events: none;
+        }
+
         .project-card:hover::before {
             opacity: 1;
+        }
+
+        .project-card:hover::after {
+            opacity: 0.4;
         }
 
         .project-card:hover {
@@ -770,6 +858,11 @@
 
     <section id="hero">
         <canvas id="hero-canvas"></canvas>
+        <span class="bp-corner bp-tl"></span>
+        <span class="bp-corner bp-tr"></span>
+        <span class="bp-corner bp-bl"></span>
+        <span class="bp-corner bp-br"></span>
+        <div class="bp-stamp">DRAFT&nbsp;<span>2027</span> · REV&nbsp;<span>2026.08</span><br>AU / MCA / 25M11MC011</div>
         <div class="hero-inner">
             <div class="hero-text reveal">
                 <div class="eyebrow">whoami</div>
